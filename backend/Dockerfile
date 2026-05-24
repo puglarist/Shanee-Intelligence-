@@ -2,12 +2,14 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install Poetry
-RUN pip install poetry
+# Install Poetry and configure to not use virtualenv in container
+RUN pip install poetry && poetry config virtualenvs.create false
 
-# Copy pyproject.toml and install dependencies
+# Copy pyproject.toml and poetry.lock
 COPY pyproject.toml poetry.lock* ./
-RUN poetry install --no-dev --no-root
+
+# Install dependencies
+RUN poetry install --no-interaction --no-ansi --no-dev
 
 # Copy application code
 COPY . .
@@ -16,4 +18,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application
-CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
