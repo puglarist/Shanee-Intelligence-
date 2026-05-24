@@ -2,14 +2,9 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install Poetry and configure to not use virtualenv in container
-RUN pip install poetry && poetry config virtualenvs.create false
-
-# Copy pyproject.toml and poetry.lock
-COPY pyproject.toml poetry.lock* ./
-
-# Install dependencies
-RUN poetry install --no-interaction --no-ansi --no-dev
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . .
