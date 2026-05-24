@@ -1,0 +1,114 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "shanee-intelligence-omniverse"
+version = "0.1.0"
+description = "Unified intelligence operating system spanning AI, distributed systems, and simulation"
+authors = [{name = "Shanee Baldwin", email = "baldwinshane09@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+
+[tool.poetry]
+name = "shanee-intelligence-omniverse"
+version = "0.1.0"
+description = "Unified intelligence operating system spanning AI, distributed systems, and simulation"
+authors = ["Shanee Baldwin <baldwinshane09@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/puglarist/shanee-intelligence-"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+# Core
+pydantic = "^2.0"
+pydantic-settings = "^2.0"
+typing-extensions = "^4.8"
+
+# AI & LLM
+anthropic = "^0.25.0"
+langchain = "^0.1.0"
+langchain-core = "^0.1.0"
+
+# Async & Concurrency
+aiohttp = "^3.9.0"
+httpx = "^0.25.0"
+asyncio-contextmanager = "^1.0.0"
+
+# APIs & Serialization
+fastapi = "^0.104.0"
+uvicorn = "^0.24.0"
+grpcio = "^1.59.0"
+protobuf = "^4.24.0"
+msgpack = "^1.0.7"
+msgspec = "^0.18.0"
+
+# Data & Storage
+sqlalchemy = "^2.0"
+asyncpg = "^0.29.0"
+redis = "^5.0.0"
+psycopg = "^3.1.0"
+alembic = "^1.12.0"
+
+# Knowledge Graph
+rdflib = "^6.3.0"
+owlrl = "^6.1"
+
+# Time Series
+timescale-python = "^0.1.0"
+
+# Logging & Monitoring
+python-json-logger = "^2.0.7"
+opentelemetry-api = "^1.21.0"
+opentelemetry-sdk = "^1.21.0"
+prometheus-client = "^0.18.0"
+
+# Security
+cryptography = "^41.0.0"
+pyjwt = "^2.8.0"
+bcrypt = "^4.1.0"
+
+# Testing
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.0"
+pytest-cov = "^4.1.0"
+httpx-mock = "^0.3.0"
+
+# Development
+black = "^23.11.0"
+ruff = "^0.1.0"
+mypy = "^1.7.0"
+pre-commit = "^3.5.0"
+
+[tool.poetry.extras]
+simulation = ["pymunk", "pyglet"]
+distributed = ["libp2p"]
+web = ["react", "next"]
+
+[tool.poetry.scripts]
+shanee = "shanee.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "--cov=shanee --cov-report=term-missing"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "PT", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.isort]
+profile = "black"
+line_length = 100
