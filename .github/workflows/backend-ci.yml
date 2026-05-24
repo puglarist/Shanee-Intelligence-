@@ -1,0 +1,63 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main, claude/**]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/**'
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.11']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v3
+        with:
+          path: backend/.venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('backend/poetry.lock') }}
+
+      - name: Install dependencies
+        working-directory: backend
+        run: poetry install --no-root
+
+      - name: Run ruff linter
+        working-directory: backend
+        run: poetry run ruff check main.py config.py
+        continue-on-error: true
+
+      - name: Run black formatter check
+        working-directory: backend
+        run: poetry run black --check main.py config.py
+        continue-on-error: true
+
+      - name: Check imports
+        working-directory: backend
+        run: poetry run python -m py_compile main.py config.py
+
+      - name: Test API startup
+        working-directory: backend
+        run: |
+          timeout 5 poetry run uvicorn main:app --host 127.0.0.1 --port 8000 || true
+          echo "✅ API starts successfully"

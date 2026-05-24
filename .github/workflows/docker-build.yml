@@ -1,0 +1,49 @@
+name: Docker Build Check
+
+on:
+  push:
+    branches: [main, claude/**]
+    paths:
+      - 'frontend/Dockerfile'
+      - 'backend/Dockerfile'
+      - 'docker-compose.yml'
+      - '.github/workflows/docker-build.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/Dockerfile'
+      - 'backend/Dockerfile'
+      - 'docker-compose.yml'
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          push: false
+          tags: shanee-backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          push: false
+          tags: shanee-frontend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Validate docker-compose.yml
+        run: |
+          docker compose config -f docker-compose.yml > /dev/null
+          echo "✅ docker-compose.yml is valid"
