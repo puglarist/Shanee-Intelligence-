@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     debug: bool = True
 
     # Security
-    secret_key: str = "dev-secret-key-change-in-production"
+    secret_key: str  # Required - must be set via environment variable
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
 

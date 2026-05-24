@@ -2,11 +2,11 @@ from datetime import datetime, timedelta
 from typing import Optional
 import jwt
 from pydantic import BaseModel
-import os
+from .config import settings
 
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+SECRET_KEY = settings.secret_key
+ALGORITHM = settings.algorithm
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 class TokenData(BaseModel):
     username: str
@@ -38,8 +38,4 @@ def verify_token(token: str) -> Optional[TokenData]:
         return None
 
 def get_user(username: str) -> Optional[User]:
-    # This will be replaced with database lookup in Phase 2
-    # For now, return mock users
-    if username == "admin":
-        return User(username="admin", email="admin@localhost")
     return None
