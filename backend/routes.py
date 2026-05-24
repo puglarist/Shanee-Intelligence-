@@ -1,20 +1,20 @@
 from fastapi import APIRouter, HTTPException, Depends, status, UploadFile, File
-from fastapi.security import HTTPBearer, HTTPAuthCredentials
+from fastapi.security import HTTPBearer
 from datetime import timedelta
-from .auth import create_access_token, verify_token, get_user, User
-from .models import (
+from auth import create_access_token, verify_token, get_user, User
+from models import (
     UserCreate, UserResponse, TokenRequest, TokenResponse,
     FileUploadRequest, FileResponse, ComputeJobRequest, ComputeJobResponse,
     SystemStatusResponse
 )
-from .storage import get_storage_backend, get_file_checksum, FileMetadata
+from storage import get_storage_backend, get_file_checksum, FileMetadata
 from datetime import datetime
 import uuid
 
 router = APIRouter()
 security = HTTPBearer()
 
-async def get_current_user(credentials: HTTPAuthCredentials = Depends(security)):
+async def get_current_user(credentials = Depends(security)):
     token = credentials.credentials
     token_data = verify_token(token)
     if not token_data:

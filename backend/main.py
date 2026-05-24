@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import router
-from .models import SystemStatusResponse
+from routes import router
+from models import SystemStatusResponse
 
 app = FastAPI(title="Shanee Intelligence API", version="0.1.0")
 

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 import jwt
 from pydantic import BaseModel
-from .config import settings
+from config import settings
 
 SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm
