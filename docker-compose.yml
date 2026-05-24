@@ -1,0 +1,56 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: shanee-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=true
+      - SECRET_KEY=dev-secret-key-change-in-production
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    networks:
+      - shanee-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: shanee-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - shanee-network
+    command: npm run dev
+
+  # PostgreSQL (optional, for future use)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: shanee-postgres
+  #   environment:
+  #     POSTGRES_USER: shanee
+  #     POSTGRES_PASSWORD: shanee_dev_password
+  #     POSTGRES_DB: shanee_intelligence
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - shanee-network
+
+networks:
+  shanee-network:
+    driver: bridge
+
+# volumes:
+#   postgres_data:
