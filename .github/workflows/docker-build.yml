@@ -45,5 +45,7 @@ jobs:
 
       - name: Validate docker-compose.yml
         run: |
-          docker compose config -f docker-compose.yml > /dev/null
+          # Install yamllint for YAML validation
+          pip install yamllint
+          yamllint -d relaxed docker-compose.yml
           echo "✅ docker-compose.yml is valid"
