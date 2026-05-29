@@ -1,0 +1,231 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Shanee Intelligence Product Analysis Schema",
+  "description": "Schema for comprehensive product analysis in the Omniverse OS",
+  "type": "object",
+  "required": ["metadata", "overview", "analysis", "scoring"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Basic information about the product entry",
+      "required": ["title", "type", "dateAdded"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Product name"
+        },
+        "type": {
+          "type": "string",
+          "description": "Category (e.g., 'Household Product', 'Consumer Good', 'Food', 'Service')"
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Company or maker"
+        },
+        "dateAdded": {
+          "type": "string",
+          "format": "date",
+          "description": "When this analysis was added"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of analysis (for tracking updates)"
+        }
+      }
+    },
+    "overview": {
+      "type": "object",
+      "description": "General information about the product",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "What the product is and what it does"
+        },
+        "commonUses": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Typical use cases"
+        },
+        "priceRange": {
+          "type": "string",
+          "description": "Typical price (e.g., '$3-5 per can')"
+        }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "description": "Comprehensive product analysis",
+      "properties": {
+        "pros": {
+          "type": "array",
+          "description": "Advantages",
+          "items": {
+            "type": "object",
+            "properties": {
+              "point": {"type": "string"},
+              "importance": {
+                "type": "string",
+                "enum": ["high", "medium", "low"]
+              },
+              "evidence": {"type": "string"}
+            }
+          }
+        },
+        "cons": {
+          "type": "array",
+          "description": "Disadvantages",
+          "items": {
+            "type": "object",
+            "properties": {
+              "point": {"type": "string"},
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low"]
+              },
+              "evidence": {"type": "string"}
+            }
+          }
+        },
+        "healthSafety": {
+          "type": "array",
+          "description": "Health and safety concerns",
+          "items": {
+            "type": "object",
+            "properties": {
+              "concern": {"type": "string"},
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low"]
+              },
+              "affectedPopulation": {"type": "string"},
+              "evidence": {"type": "string"}
+            }
+          }
+        },
+        "environmental": {
+          "type": "array",
+          "description": "Environmental impacts",
+          "items": {
+            "type": "object",
+            "properties": {
+              "impact": {"type": "string"},
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low"]
+              },
+              "evidence": {"type": "string"}
+            }
+          }
+        },
+        "effectiveness": {
+          "type": "object",
+          "description": "How well the product works",
+          "properties": {
+            "rating": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "description": {"type": "string"},
+            "evidence": {"type": "string"}
+          }
+        },
+        "costValue": {
+          "type": "object",
+          "description": "Cost and value analysis",
+          "properties": {
+            "price": {"type": "string"},
+            "comparison": {"type": "string"},
+            "verdict": {"type": "string"}
+          }
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "description": "Multi-dimensional scoring system",
+      "properties": {
+        "health": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Health & Safety impact (1=dangerous, 10=safe)"
+        },
+        "environment": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Environmental impact (1=harmful, 10=benign)"
+        },
+        "effectiveness": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Does it work as advertised"
+        },
+        "value": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Cost-effectiveness (1=poor value, 10=great value)"
+        },
+        "overall": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Weighted score: (health×0.35 + environment×0.30 + effectiveness×0.20 + value×0.15)"
+        },
+        "weights": {
+          "type": "object",
+          "description": "Scoring weights used",
+          "properties": {
+            "health": {"type": "number"},
+            "environment": {"type": "number"},
+            "effectiveness": {"type": "number"},
+            "value": {"type": "number"}
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "description": "Sources for research claims",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {"type": "string"},
+          "url": {"type": "string"},
+          "type": {
+            "type": "string",
+            "enum": ["academic", "governmental", "manufacturer", "consumer", "news", "other"]
+          },
+          "accessDate": {"type": "string"}
+        }
+      }
+    },
+    "researchNotes": {
+      "type": "array",
+      "description": "Additional findings and research observations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {"type": "string"},
+          "finding": {"type": "string"},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "alternatives": {
+      "type": "array",
+      "description": "Better alternatives to consider",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "advantages": {"type": "string"}
+        }
+      }
+    }
+  }
+}
