@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "shanee-intelligence-backend"
+version = "0.1.0"
+description = "FastAPI backend for Shanee Intelligence MVP"
+authors = ["Shanee Intelligence <dev@shanee.ai>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.104.1"
+uvicorn = "^0.24.0"
+pydantic = "^2.4.2"
+pydantic-settings = "^2.0.3"
+pyjwt = "^2.8.1"
+python-multipart = "^0.0.6"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+httpx = "^0.25.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
