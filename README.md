@@ -1,14 +1,48 @@
 # Shanee Intelligence
 
-A privacy-focused GPU-accelerated platform for distributed AI orchestration and multi-agent systems.
+An AI-assisted cinematic omniverse development ecosystem combining distributed intelligence, procedural world generation, persistent simulations, and spatial computing.
 
-## Project Overview
+## Ecosystem Overview
 
-Shanee Intelligence is a complete platform designed to enable:
-- **Privacy-First Architecture**: End-to-end encryption and local processing
-- **GPU Acceleration**: High-performance compute workloads and AI inference
-- **Distributed Systems**: Multi-agent orchestration across multiple nodes
-- **Scalable Infrastructure**: Cloud-native deployment and horizontal scaling
+Shanee Intelligence is an umbrella research initiative and infrastructure foundation supporting:
+
+- **AI Orchestration**: Advanced agent coordination, memory systems, and tool ecosystems
+- **Distributed Systems**: Privacy-first, GPU-accelerated multi-agent infrastructure
+- **Omniverse Engine**: Cinematic simulation platform with procedural world generation
+- **Stronghold Initiative**: Protected persistent worlds with AI governance systems
+- **Spatial Computing**: iOS/Swift integration with Vision Pro support
+- **Creator Ecosystems**: Tools and infrastructure for building within the omniverse
+
+## Divisions
+
+### Shanee Intelligence (Core)
+The parent organization providing:
+- AI orchestration framework
+- Research umbrella
+- Infrastructure foundation
+- Long-term ecosystem architecture
+
+### Omniverse Engine
+The cinematic simulation platform featuring:
+- Unreal Engine 5 runtime systems
+- AI-generated procedural worlds
+- Cinematic rendering and visualization
+- Multiplayer sandbox infrastructure
+- Simulation and civilization systems
+
+### Stronghold System
+The persistent universe protection layer:
+- Protected persistent worlds
+- AI governance infrastructure
+- Creator command centers
+- Simulation recovery architecture
+
+### iOS + Swift Layer
+Portable omniverse terminals:
+- SwiftUI dashboard
+- Spatial computing interface
+- Vision Pro ecosystem
+- Mobile orchestration
 
 ## Phase 1: MVP
 
@@ -189,17 +223,116 @@ cp backend/.env.example backend/.env
 - **Node.js** - Frontend runtime
 - **Python 3.11** - Backend runtime
 
-## Next Phases
+## Repository Structure
 
-**Phase 2**: Core agent, memory, and tool management systems
+This monorepo contains the complete Shanee Intelligence ecosystem:
+
+```
+shanee-intelligence/
+├── apps/                      # Deployable applications
+│   ├── backend/               # Core API and orchestration
+│   ├── omniverse-engine/      # Unreal Engine runtime
+│   ├── stronghold/            # Persistent world systems
+│   ├── ios-swift/             # Mobile interfaces
+│   └── creator-console/       # Creator tools
+├── engine/                    # Core simulation engines
+│   ├── unreal-engine/         # UE5 integration
+│   ├── simulation-runtime/    # Simulation infrastructure
+│   ├── world-generation/      # Procedural generation
+│   ├── multiplayer/           # Networking and sync
+│   ├── cinematics/            # Rendering and visualization
+│   └── ai-orchestration/      # Agent coordination
+├── infrastructure/            # Cloud and deployment
+│   ├── docker/
+│   ├── kubernetes/
+│   ├── cloud/
+│   └── portable-storage/
+├── ai-systems/                # Intelligence layers
+│   ├── agents/                # Agent implementations
+│   ├── llm-orchestration/     # Language model coordination
+│   ├── memory-systems/        # Memory management
+│   └── civilization-ai/       # Civilization engines
+└── repo-tasks/                # Development task ecosystem
+    ├── milestones/
+    ├── epics/
+    ├── features/
+    ├── bugs/
+    ├── research/
+    ├── ai-systems/
+    ├── simulation-systems/
+    ├── unreal-engine/
+    ├── ios-swift/
+    ├── backend/
+    ├── security/
+    ├── multiplayer/
+    ├── cinematics/
+    ├── procedural-worlds/
+    ├── stronghold/
+    ├── performance/
+    └── deployment/
+```
+
+## Task Management System
+
+This repository uses an integrated task orchestration system to manage all development across the ecosystem. Tasks are organized by:
+
+- **Milestones**: Major project phases and releases
+- **Epics**: Large feature initiatives
+- **Features**: Concrete development tasks
+- **Research**: R&D and exploration tasks
+- **Domain-Specific Tasks**: Organized by system (Unreal Engine, AI, iOS, Security, etc.)
+
+See `repo-tasks/` directory for the task ecosystem and development roadmap.
+
+## Development Phases
+
+**Phase 1**: MVP Foundation (Current)
+- Core API and authentication
+- Frontend dashboard
+- Docker infrastructure
+- Task orchestration system
+
+**Phase 2**: Agent & Memory Systems
 - Multi-agent orchestration
-- Advanced memory management
+- Advanced memory management (episodic, semantic, procedural)
 - Tool ecosystem and registry
+- API route organization
 
-**Phase 3**: Omniverse OS platform
-- Distributed networking
-- Simulation engine
-- Complete cloud infrastructure
+**Phase 3**: Omniverse Engine Foundation
+- Unreal Engine 5 integration
+- Plugin architecture
+- World streaming systems
+- Cinematic rendering pipeline
+
+**Phase 4**: AI World Generation
+- Hugging Face orchestration
+- Procedural terrain generation
+- AI NPC systems
+- Civilization generation
+
+**Phase 5**: Stronghold Implementation
+- Persistent world systems
+- AI governance infrastructure
+- Secure save systems
+- Recovery architecture
+
+**Phase 6**: Multiplayer Infrastructure
+- Dedicated server setup
+- Matchmaking systems
+- Voice communication
+- World synchronization
+
+**Phase 7**: iOS + Swift Integration
+- SwiftUI dashboard
+- Unreal Engine bridge
+- Bluetooth discovery
+- Vision Pro support
+
+**Phase 8**: Optimization & Scaling
+- GPU optimization
+- Streaming optimization
+- AI compute balancing
+- Planetary simulation scale
 
 ## Contributing
 
