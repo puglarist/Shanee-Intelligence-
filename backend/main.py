@@ -18,6 +18,7 @@ class TokenData(BaseModel):
 
 class User(BaseModel):
     username: str
+    password: str
 
 class UserResponse(BaseModel):
     username: str
@@ -84,7 +85,7 @@ async def get_current_user(authorization: Optional[str] = None) -> User:
 
 @app.post("/auth/token", response_model=Token)
 async def login(user: User):
-    if user.username != "admin" or user.username == "":
+    if user.username != "admin" or user.password != "admin":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
