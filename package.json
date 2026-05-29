@@ -1,0 +1,31 @@
+{
+  "name": "shanee-intelligence",
+  "version": "0.1.0",
+  "description": "Omniverse Intelligence Engine - AI orchestration kernel",
+  "main": "orchestrator/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node orchestrator/engine.js",
+    "dev": "NODE_ENV=development node orchestrator/engine.js",
+    "hf": "node hf/server.js",
+    "simulate": "node simulation/earth/generator.js",
+    "test": "echo 'Tests pending'",
+    "logs": "tail -f logs/execution.log"
+  },
+  "keywords": [
+    "omniverse",
+    "simulation",
+    "ai-orchestration",
+    "world-generation"
+  ],
+  "author": "Shanee Intelligence",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

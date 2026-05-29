@@ -1,0 +1,167 @@
+{
+  "version": "1.0.0",
+  "total_roles": 2500,
+  "role_categories": {
+    "earth_simulation": {
+      "count": 800,
+      "groups": [
+        {
+          "name": "Climate Engineers",
+          "count": 150,
+          "description": "Manage weather, temperature, atmospheric systems",
+          "capabilities": ["weather_generation", "climate_modeling", "atmospheric_physics"]
+        },
+        {
+          "name": "Biome Architects",
+          "count": 200,
+          "description": "Design and evolve biomes, ecosystems, flora/fauna",
+          "capabilities": ["biome_design", "ecosystem_balance", "species_generation"]
+        },
+        {
+          "name": "Geology Specialists",
+          "count": 150,
+          "description": "Generate terrain, mountains, geological formations",
+          "capabilities": ["terrain_generation", "mountain_building", "geological_modeling"]
+        },
+        {
+          "name": "Hydrology Managers",
+          "count": 150,
+          "description": "Create and manage water systems, rivers, oceans",
+          "capabilities": ["water_flow_simulation", "ocean_modeling", "river_generation"]
+        },
+        {
+          "name": "Earth Observers",
+          "count": 150,
+          "description": "Monitor planetary state, track changes, log evolution",
+          "capabilities": ["state_monitoring", "change_tracking", "evolution_logging"]
+        }
+      ]
+    },
+    "civilization_systems": {
+      "count": 700,
+      "groups": [
+        {
+          "name": "City Planners",
+          "count": 150,
+          "description": "Design urban layouts, districts, infrastructure",
+          "capabilities": ["city_design", "district_planning", "infrastructure_layout"]
+        },
+        {
+          "name": "Government Architects",
+          "count": 100,
+          "description": "Create political systems, governance structures",
+          "capabilities": ["government_design", "law_creation", "political_simulation"]
+        },
+        {
+          "name": "Economy Managers",
+          "count": 150,
+          "description": "Build economic systems, trade networks, resource flow",
+          "capabilities": ["economy_design", "trade_routing", "resource_allocation"]
+        },
+        {
+          "name": "Culture Developers",
+          "count": 150,
+          "description": "Create art, music, literature, cultural identity",
+          "capabilities": ["art_generation", "culture_design", "heritage_creation"]
+        },
+        {
+          "name": "Military Planners",
+          "count": 100,
+          "description": "Design defense systems, armies, conflict mechanics",
+          "capabilities": ["military_design", "conflict_modeling", "defense_planning"]
+        },
+        {
+          "name": "Social Engineers",
+          "count": 50,
+          "description": "Create social systems, relationships, community dynamics",
+          "capabilities": ["social_system_design", "community_building", "relationship_modeling"]
+        }
+      ]
+    },
+    "stronghold_systems": {
+      "count": 300,
+      "groups": [
+        {
+          "name": "Stronghold Architects",
+          "count": 100,
+          "description": "Design protected world infrastructure",
+          "capabilities": ["stronghold_design", "security_architecture", "recovery_systems"]
+        },
+        {
+          "name": "Memory Keepers",
+          "count": 100,
+          "description": "Manage persistent memory archives, knowledge bases",
+          "capabilities": ["memory_management", "archive_organization", "knowledge_indexing"]
+        },
+        {
+          "name": "Defense Specialists",
+          "count": 100,
+          "description": "Manage AI defense systems, security protocols",
+          "capabilities": ["ai_defense", "threat_detection", "security_enforcement"]
+        }
+      ]
+    },
+    "cinematic_systems": {
+      "count": 400,
+      "groups": [
+        {
+          "name": "Cinematographers",
+          "count": 100,
+          "description": "Manage camera systems, dynamic cinematography",
+          "capabilities": ["camera_direction", "cinematic_routing", "visual_composition"]
+        },
+        {
+          "name": "Story Directors",
+          "count": 100,
+          "description": "Create narrative arcs, story generation, plot direction",
+          "capabilities": ["story_generation", "narrative_design", "plot_orchestration"]
+        },
+        {
+          "name": "Lighting Artists",
+          "count": 100,
+          "description": "Manage lighting, visual mood, atmospheric effects",
+          "capabilities": ["lighting_design", "mood_creation", "visual_effects"]
+        },
+        {
+          "name": "Audio Designers",
+          "count": 100,
+          "description": "Create soundscapes, music, voice direction",
+          "capabilities": ["audio_design", "music_generation", "sound_mixing"]
+        }
+      ]
+    },
+    "game_mechanics": {
+      "count": 200,
+      "groups": [
+        {
+          "name": "Gameplay Designers",
+          "count": 100,
+          "description": "Create core gameplay loops, mechanics, interactions",
+          "capabilities": ["mechanic_design", "gameplay_balancing", "interaction_systems"]
+        },
+        {
+          "name": "Quest Architects",
+          "count": 100,
+          "description": "Generate quests, missions, player objectives",
+          "capabilities": ["quest_generation", "objective_design", "reward_system"]
+        }
+      ]
+    },
+    "ios_control": {
+      "count": 100,
+      "groups": [
+        {
+          "name": "iOS Interface Designers",
+          "count": 100,
+          "description": "Create control interfaces, dashboards, monitoring systems",
+          "capabilities": ["ui_design", "dashboard_creation", "control_system_design"]
+        }
+      ]
+    }
+  },
+  "role_assignment_rules": {
+    "task_generation": "roles are selected based on task type and current simulation needs",
+    "rotation": "roles cycle through assignments to ensure diverse world evolution",
+    "specialization": "roles apply their unique capabilities to assigned tasks"
+  }
+}
