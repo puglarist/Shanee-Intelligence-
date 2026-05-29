@@ -1,0 +1,55 @@
+{
+  "name": "Omniverse Engine",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [3000, 3001, 8080],
+  "portsAttributes": {
+    "3000": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "3001": {
+      "label": "Simulator",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Health Check",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "cd backend && npm ci && cd .. && npm run db:migrate",
+  "remoteUser": "node",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-nodejs.vscode-node-debug2",
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "debug.node.autoAttach": "on"
+      }
+    }
+  },
+  "mounts": [
+    "source=/media,target=/media,type=bind,consistency=cached"
+  ],
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "DEBUG": "omniverse:*",
+    "DATABASE_URL": "/workspace/data/omniverse.db",
+    "EXTERNAL_DRIVE_PATH": "/media/external"
+  }
+}
