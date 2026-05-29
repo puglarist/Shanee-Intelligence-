@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: /workspace/data/omniverse.db
+      EXTERNAL_DRIVE_PATH: /media/external
+      DEBUG: omniverse:*
+      PORT: 3000
+      HEALTH_CHECK_PORT: 8080
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /media:/media:cached
+      - omniverse-data:/workspace/data
+    working_dir: /workspace/backend
+    command: npm run dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  simulator:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      BACKEND_URL: http://backend:3000
+      DEBUG: omniverse:simulator
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+    working_dir: /workspace/backend
+    command: npm run sim
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  omniverse-data:
+    driver: local
