@@ -1,0 +1,112 @@
+// Omniverse Engine Prisma Schema
+// This schema defines the core data models for state persistence
+
+datasource db {
+  provider = env("DATABASE_PROVIDER")
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-py"
+}
+
+// Agent model - represents active agents in the system
+model Agent {
+  id        String   @id @default(cuid())
+  role      String
+  status    String   // active, idle, completed, error
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  tasks Task[]
+  logs  ExecutionLog[]
+
+  @@index([role])
+  @@index([status])
+}
+
+// Task model - represents work items for agents
+model Task {
+  id        String   @id @default(cuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  type      String
+  payload   Json
+  status    String   // pending, running, completed, failed
+  result    Json?
+  retries   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  logs ExecutionLog[]
+
+  @@index([agentId])
+  @@index([status])
+  @@index([type])
+}
+
+// SimulationState model - tracks simulation progress
+model SimulationState {
+  id        String   @id @default(cuid())
+  timestamp DateTime @default(now())
+  data      Json
+  version   Int
+
+  @@index([version])
+  @@unique([version])
+}
+
+// WorldState model - stores the current world state
+model WorldState {
+  id        String   @id @default(cuid())
+  state     Json
+  timestamp DateTime @default(now())
+
+  @@index([timestamp])
+}
+
+// ExecutionLog model - detailed logs of agent actions
+model ExecutionLog {
+  id        String   @id @default(cuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  taskId    String?
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  action    String
+  result    String
+  success   Boolean
+  timestamp DateTime @default(now())
+
+  @@index([agentId])
+  @@index([taskId])
+  @@index([timestamp])
+}
+
+// AgentMetrics model - performance metrics for agents
+model AgentMetrics {
+  id              String   @id @default(cuid())
+  agentId         String
+  tasksCompleted  Int      @default(0)
+  tasksFailed     Int      @default(0)
+  avgExecutionMs  Float    @default(0)
+  lastExecutedAt  DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([agentId])
+  @@index([agentId])
+}
+
+// Checkpoint model - for simulation checkpoints
+model Checkpoint {
+  id         String   @id @default(cuid())
+  name       String
+  description String?
+  data       Json
+  timestamp  DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@index([timestamp])
+}

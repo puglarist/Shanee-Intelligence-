@@ -1,0 +1,16 @@
+{
+  "state": {
+    "world": {
+      "version": 1,
+      "timestamp": "2026-05-29T00:00:00Z",
+      "initialized": false
+    },
+    "terrain": {},
+    "climate": {},
+    "biomes": {},
+    "cities": [],
+    "populations": []
+  },
+  "timestamp": "2026-05-29T00:00:00Z",
+  "version": 1
+}
