@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sword Remains — Shanee Nation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/shared.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c8960c;
+    --gold-light: #f0d060;
+    --gold-dim: #7a5a10;
+    --gold-pale: rgba(200,150,12,0.15);
+    --ink: #0a0806;
+    --stone: #1a1610;
+    --parchment: #e8d9a0;
+    --blade: #c8d0d8;
+  }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--ink);
+    color: var(--parchment);
+  }
+
+  body {
+    font-family: 'Cinzel', serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── CANVAS BACKGROUND ── */
+  #canvas-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── NAV ── */
+  .nav-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10,8,6,0.95);
+    border-bottom: 0.5px solid rgba(200,150,12,0.2);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 10px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: var(--gold-light);
+  }
+
+  .page {
+    padding-top: 8rem;
+  }
+
+  /* ── MASTHEAD ── */
+  .nation-crest {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    animation: fade-in 1.5s ease both;
+  }
+
+  .main-heading {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 900;
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+    animation: fade-in 1.8s ease 0.2s both;
+    text-shadow:
+      0 0 60px rgba(240,208,96,0.2),
+      0 0 120px rgba(240,208,96,0.08);
+  }
+
+  .sub-heading {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: clamp(13px, 2.5vw, 16px);
+    color: var(--gold-dim);
+    text-align: center;
+    letter-spacing: 0.15em;
+    margin-bottom: 4rem;
+    animation: fade-in 2s ease 0.4s both;
+  }
+
+  /* ── DIVIDER ── */
+  .rule {
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 2.5rem 0;
+    opacity: 0.5;
+    animation: fade-in 2s ease 0.5s both;
+  }
+
+  .rule-ornament {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 480px;
+    margin: 2rem 0;
+    animation: fade-in 2s ease 0.6s both;
+  }
+  .rule-ornament::before,
+  .rule-ornament::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+  .rule-ornament::after {
+    background: linear-gradient(270deg, transparent, var(--gold-dim));
+  }
+  .rule-ornament span {
+    font-size: 18px;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  /* ── SWORD SCENE ── */
+  .scene-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 500px;
+    margin: 1rem 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 2.5s ease 0.6s both;
+  }
+
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 0.5px solid rgba(200,150,12,0.18);
+  }
+  .orbit-1 { width: 320px; height: 320px; animation: orbit 25s linear infinite; }
+  .orbit-2 { width: 240px; height: 240px; animation: orbit 15s linear infinite reverse; border-style: dashed; opacity: 0.6; }
+  .orbit-3 { width: 400px; height: 400px; animation: orbit 40s linear infinite; opacity: 0.3; }
+
+  @keyframes orbit {
+    to { transform: rotate(360deg); }
+  }
+
+  .scene-svg {
+    position: relative;
+    z-index: 2;
+    width: 220px;
+    height: 480px;
+    filter: drop-shadow(0 0 30px rgba(200,150,12,0.12));
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* ── THREE PILLARS ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+    max-width: 580px;
+    margin-bottom: 1rem;
+    animation: fade-in 2.5s ease 1s both;
+  }
+
+  .pillar {
+    background: rgba(200,150,12,0.04);
+    border: 0.5px solid rgba(200,150,12,0.2);
+    border-top: 1.5px solid var(--gold-dim);
+    padding: 1.25rem 1rem;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+  .pillar:hover {
+    background: rgba(200,150,12,0.08);
+    border-color: rgba(200,150,12,0.4);
+    border-top-color: var(--gold);
+  }
+
+  .pillar-icon-wrap {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(200,150,12,0.1);
+    border: 0.5px solid rgba(200,150,12,0.25);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 0.75rem;
+  }
+
+  .pillar-icon-wrap svg {
+    width: 18px; height: 18px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .pillar-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 8.5px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .pillar-desc {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: rgba(232,217,160,0.6);
+    line-height: 1.6;
+  }
+
+  /* ── DECREE BLOCK ── */
+  .decree {
+    width: 100%;
+    max-width: 560px;
+    background: rgba(10,8,6,0.8);
+    border: 0.5px solid rgba(200,150,12,0.2);
+    padding: 2.5rem 2.5rem;
+    position: relative;
+    animation: fade-in 2.5s ease 1.2s both;
+  }
+
+  .decree::before,
+  .decree::after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--gold-dim);
+    border-style: solid;
+    opacity: 0.6;
+  }
+  .decree::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+  .decree::after { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+  .decree-inner::before {
+    content: '';
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 20px; height: 20px;
+    border-top: 1px solid var(--gold-dim);
+    border-right: 1px solid var(--gold-dim);
+    opacity: 0.6;
+  }
+  .decree-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 8px; left: 8px;
+    width: 20px; height: 20px;
+    border-bottom: 1px solid var(--gold-dim);
+    border-left: 1px solid var(--gold-dim);
+    opacity: 0.6;
+  }
+  .decree-inner {
+    position: relative;
+  }
+
+  .decree-line {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(13px, 2.2vw, 15px);
+    color: rgba(200,150,12,0.75);
+    line-height: 2.2;
+    text-align: center;
+    letter-spacing: 0.06em;
+    display: block;
+  }
+
+  .decree-line.hero {
+    font-size: clamp(16px, 3vw, 20px);
+    color: var(--gold-light);
+    font-style: normal;
+    margin: 0.5rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  .decree-line.dim {
+    color: rgba(200,150,12,0.4);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  /* ── ROOT SYSTEM ── */
+  .roots-section {
+    width: 100%;
+    max-width: 560px;
+    animation: fade-in 2.5s ease 1.4s both;
+  }
+
+  .roots-header {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+
+  .root-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .root-label-text {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: rgba(200,150,12,0.5);
+    min-width: 130px;
+    text-align: right;
+  }
+
+  .root-track {
+    flex: 1;
+    height: 2px;
+    background: rgba(200,150,12,0.08);
+    position: relative;
+    overflow: visible;
+  }
+
+  .root-fill {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(58,42,8,0.8), var(--gold-dim));
+    animation: grow 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: var(--delay, 1.5s);
+    width: 0;
+  }
+
+  @keyframes grow {
+    to { width: var(--w, 60%); }
+  }
+
+  .root-pct {
+    font-size: 10px;
+    color: var(--gold-dim);
+    min-width: 30px;
+    text-align: right;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── CTA BUTTON ── */
+  .cta-button {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.75rem 2rem;
+    background: rgba(200,150,12,0.1);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .cta-button:hover {
+    background: rgba(200,150,12,0.2);
+    border-color: var(--gold-light);
+    color: var(--parchment);
+  }
+
+  /* ── SIGNATURE ── */
+  .signature-block {
+    text-align: center;
+    margin-top: 0.5rem;
+    animation: fade-in 3s ease 1.6s both;
+  }
+
+  .sig-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(11px, 2.5vw, 14px);
+    color: var(--gold-dim);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .sig-year {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: rgba(122,90,16,0.5);
+  }
+
+  /* ── KEYFRAME UTILS ── */
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .nav-links { gap: 1rem; }
+    .pillars { grid-template-columns: 1fr; max-width: 320px; }
+    .root-label-text { min-width: 90px; font-size: 11px; }
+    .decree { padding: 1.75rem 1.25rem; }
+    .scene-wrap { height: 380px; }
+    .scene-svg { width: 160px; height: 360px; }
+    .orbit-1 { width: 240px; height: 240px; }
+    .orbit-2 { width: 180px; height: 180px; }
+    .orbit-3 { width: 300px; height: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav-header">
+  <div class="nav-title">Shanee Nation</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Ceremony</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="research.html">Research</a></li>
+  </ul>
+</nav>
+
+<canvas id="canvas-bg"></canvas>
+
+<main class="page">
+
+  <p class="nation-crest">Shanee Nation · Appalachian Sovereign</p>
+  <h1 class="main-heading">The Sword Remains</h1>
+  <p class="sub-heading">Until the key reveals itself in the dig</p>
+
+  <!-- Sword Scene -->
+  <div class="scene-wrap">
+    <div class="orbit-ring orbit-1"></div>
+    <div class="orbit-ring orbit-2"></div>
+    <div class="orbit-ring orbit-3"></div>
+
+    <svg class="scene-svg" viewBox="0 0 220 480" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="blade" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#3a4050"/>
+          <stop offset="35%" stop-color="#a8b8c8"/>
+          <stop offset="50%" stop-color="#e8f0f8"/>
+          <stop offset="65%" stop-color="#a8b8c8"/>
+          <stop offset="100%" stop-color="#3a4050"/>
+        </linearGradient>
+        <linearGradient id="guard-g" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#e8b820"/>
+          <stop offset="100%" stop-color="#7a5008"/>
+        </linearGradient>
+        <linearGradient id="grip-g" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#3a2208"/>
+          <stop offset="50%" stop-color="#7a4818"/>
+          <stop offset="100%" stop-color="#3a2208"/>
+        </linearGradient>
+        <linearGradient id="stone-g" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2e2820"/>
+          <stop offset="100%" stop-color="#161210"/>
+        </linearGradient>
+        <radialGradient id="glow-g" cx="50%" cy="0%" r="60%">
+          <stop offset="0%" stop-color="rgba(240,208,96,0.35)"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <filter id="glow-f">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Glow emanation from tip -->
+      <ellipse cx="110" cy="28" rx="30" ry="60" fill="url(#glow-g)" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="3s" repeatCount="indefinite"/>
+      </ellipse>
+
+      <!-- Tip glow dot -->
+      <circle cx="110" cy="24" r="3" fill="#f0d060" filter="url(#glow-f)">
+        <animate attributeName="r" values="3;5;3" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.4;1" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Blade -->
+      <polygon points="110,22 100,320 120,320" fill="url(#blade)" stroke="rgba(168,184,200,0.3)" stroke-width="0.3"/>
+      <!-- Blade fuller/spine -->
+      <line x1="110" y1="25" x2="110" y2="315" stroke="rgba(232,240,248,0.3)" stroke-width="1"/>
+      <!-- Edge shimmer -->
+      <line x1="103" y1="60" x2="100" y2="300" stroke="rgba(232,240,248,0.15)" stroke-width="0.5"/>
+      <line x1="117" y1="60" x2="120" y2="300" stroke="rgba(232,240,248,0.15)" stroke-width="0.5"/>
+
+      <!-- Cross guard -->
+      <rect x="52" y="316" width="116" height="14" rx="3" fill="url(#guard-g)" stroke="#5a3a08" stroke-width="0.5"/>
+      <!-- Guard detail -->
+      <line x1="70" y1="323" x2="150" y2="323" stroke="rgba(240,208,96,0.3)" stroke-width="0.5"/>
+      <circle cx="55" cy="323" r="5" fill="url(#guard-g)" stroke="#5a3a08" stroke-width="0.5"/>
+      <circle cx="165" cy="323" r="5" fill="url(#guard-g)" stroke="#5a3a08" stroke-width="0.5"/>
+
+      <!-- Grip -->
+      <rect x="97" y="330" width="26" height="70" rx="4" fill="url(#grip-g)" stroke="#2a1808" stroke-width="0.5"/>
+      <line x1="97" y1="344" x2="123" y2="344" stroke="rgba(58,34,8,0.8)" stroke-width="1"/>
+      <line x1="97" y1="355" x2="123" y2="355" stroke="rgba(58,34,8,0.8)" stroke-width="1"/>
+      <line x1="97" y1="366" x2="123" y2="366" stroke="rgba(58,34,8,0.8)" stroke-width="1"/>
+      <line x1="97" y1="377" x2="123" y2="377" stroke="rgba(58,34,8,0.8)" stroke-width="1"/>
+      <line x1="97" y1="388" x2="123" y2="388" stroke="rgba(58,34,8,0.8)" stroke-width="1"/>
+
+      <!-- Pommel -->
+      <ellipse cx="110" cy="406" rx="16" ry="10" fill="url(#guard-g)" stroke="#5a3a08" stroke-width="0.5"/>
+      <ellipse cx="110" cy="403" rx="10" ry="6" fill="rgba(240,208,96,0.15)" stroke="rgba(200,150,12,0.4)" stroke-width="0.5"/>
+
+      <!-- Stone base -->
+      <path d="M35 430 L185 430 L200 475 L20 475 Z" fill="url(#stone-g)" stroke="#3a2e20" stroke-width="0.5"/>
+      <!-- Stone cracks -->
+      <path d="M80 432 L65 455 M110 430 L120 465 M145 433 L135 460" stroke="#2a2018" stroke-width="0.5" fill="none" opacity="0.6"/>
+      <!-- Stone slot where sword enters -->
+      <path d="M104 430 L104 418 L116 418 L116 430" fill="#0e0c08" stroke="#2a1e10" stroke-width="0.5"/>
+      <!-- Stone text -->
+      <text x="110" y="458" text-anchor="middle" font-family="Cinzel" font-size="8" fill="rgba(200,150,12,0.3)" letter-spacing="4">APPALACHIA</text>
+    </svg>
+  </div>
+
+  <!-- Three Pillars -->
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6 8 6 14 12 22C18 14 18 8 12 2Z"/><path d="M12 2C8 6 10 12 12 22"/><path d="M12 2C16 6 14 12 12 22"/></svg>
+      </div>
+      <span class="pillar-name">Athena</span>
+      <p class="pillar-desc">Sweet war fighter. Knows what it's for. No pretense — only presence.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 8 8 4 4 4M12 12C12 8 16 4 20 4M8 16C8 14 10 12 12 12M16 16C16 14 14 12 12 12"/></svg>
+      </div>
+      <span class="pillar-name">The Dig</span>
+      <p class="pillar-desc">Root cause. Appalachian agriforestry. The key reveals only in the earth.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon-wrap">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <span class="pillar-name">The Box</span>
+      <p class="pillar-desc">Draft sovereign. Leave no man nor woman behind. Build sleek from here.</p>
+    </div>
+  </div>
+
+  <div class="rule-ornament"><span>✦</span></div>
+
+  <!-- Decree -->
+  <div class="decree">
+    <div class="decree-inner">
+      <span class="decree-line dim">— The talking stage is over —</span>
+      <span class="decree-line hero">Can you remove the sword or not?</span>
+      <span class="decree-line">RER&D first. Remove the Shanee Way.</span>
+      <span class="decree-line">God is not the sword.</span>
+      <span class="decree-line hero">God is the key.</span>
+      <span class="decree-line">It reveals itself only in the dig.</span>
+      <span class="decree-line">Build sleek. Leave no one behind.</span>
+      <span class="decree-line dim">— 100 ❤ ✔ —</span>
+    </div>
+  </div>
+
+  <div class="rule-ornament"><span>✦</span></div>
+
+  <!-- Root System -->
+  <div class="roots-section">
+    <p class="roots-header">Root Depth · Appalachian Ground Work</p>
+    <div class="root-row">
+      <span class="root-label-text">Soil knowledge</span>
+      <div class="root-track"><div class="root-fill" style="--w:78%; --delay:1.6s"></div></div>
+      <span class="root-pct">78</span>
+    </div>
+    <div class="root-row">
+      <span class="root-label-text">Sovereign discipline</span>
+      <div class="root-track"><div class="root-fill" style="--w:91%; --delay:1.8s"></div></div>
+      <span class="root-pct">91</span>
+    </div>
+    <div class="root-row">
+      <span class="root-label-text">RER&D integrity</span>
+      <div class="root-track"><div class="root-fill" style="--w:85%; --delay:2.0s"></div></div>
+      <span class="root-pct">85</span>
+    </div>
+    <div class="root-row">
+      <span class="root-label-text">No man left behind</span>
+      <div class="root-track"><div class="root-fill" style="--w:100%; --delay:2.2s"></div></div>
+      <span class="root-pct">100</span>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- CTA -->
+  <a href="research.html" class="cta-button">Enter the Research Commons</a>
+
+  <!-- Signature -->
+  <div class="signature-block">
+    <p class="sig-name">Omorpheous Shanee Baldwin</p>
+    <p class="sig-year">Shanee Nation · Appalachian Sovereign · MMXXVI</p>
+  </div>
+
+</main>
+
+<script>
+  const canvas = document.getElementById('canvas-bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [], sparks = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < 120; i++) {
+    stars.push({
+      x: Math.random(),
+      y: Math.random(),
+      r: Math.random() * 1.2 + 0.2,
+      a: Math.random() * 0.6 + 0.1,
+      flicker: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.02 + 0.005
+    });
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Deep background vignette
+    const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.8);
+    grad.addColorStop(0, 'rgba(18,14,10,0)');
+    grad.addColorStop(1, 'rgba(6,4,2,0.7)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,W,H);
+
+    // Stars
+    stars.forEach(s => {
+      const flicker = Math.sin(t * s.speed + s.flicker) * 0.3 + 0.7;
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(232,217,160,${s.a * flicker})`;
+      ctx.fill();
+    });
+
+    // Subtle gold mist around center
+    const mist = ctx.createRadialGradient(W/2, H*0.4, 0, W/2, H*0.4, W * 0.35);
+    mist.addColorStop(0, 'rgba(200,150,12,0.04)');
+    mist.addColorStop(1, 'transparent');
+    ctx.fillStyle = mist;
+    ctx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+</script>
+</body>
+</html>

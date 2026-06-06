@@ -1,0 +1,29 @@
+{
+  "name": "the-sword-remains",
+  "version": "0.1.0",
+  "description": "Shanee Nation botanical research & sovereignty portal",
+  "main": "pages/index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/puglarist/Shanee-Intelligence-.git",
+    "directory": "sword-remains"
+  },
+  "keywords": [
+    "appalachian",
+    "botanical",
+    "ginseng",
+    "goldenseal",
+    "agriforestry",
+    "sovereignty",
+    "shanee-nation"
+  ],
+  "author": "Omorpheous Shanee Baldwin",
+  "license": "CC-BY-4.0",
+  "scripts": {
+    "serve": "python3 -m http.server 8000",
+    "test": "echo \"Tests coming soon\"",
+    "build": "echo \"Build scripts for deployment coming soon\""
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
